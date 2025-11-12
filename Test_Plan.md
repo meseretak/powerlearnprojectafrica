@@ -5,14 +5,14 @@
 |-----------------------|-----------------------|-----------------------|
 |Viron Ochieng|Test Manager|`ochiengviron06@gmail.com`|
 |MarkPaul Ndiragu|Risk Analyst|-----------------------|
-|Mercy Benu|Test Executor|-----------------------|
+|Mercy Benu|Test Executor|benumercy1@gmail.com|
 
 
 ## Overview of the project and purpose
 - To verify that the user login, logout, registration form are functioning well
-- To verify that the application works well accross different browsers and even mobile phones
+- To verify that the application works well accross different browsers and on mobile phones
 - To ensure that an admin can add new status, edit the current status, and also update status
-- Automate the website using selnium
+- Automate the website using selenium
 
 ##  Objectives of the Project
 - The main purpose of the project is to apply what we have learnt to ensure that both the users and admins navigate through the cleancity website with much ease.
@@ -205,7 +205,7 @@
 
 ## **Risks Identified**
 |Risk name|Likelihood | Severity|Description|
-|----------------|----------------|----------------|----------------|
+|Use of weak passwords to login| high |medium|A user can be able to create and login to their account using weak password. These passwords are easy to crack and a hacker can use the credentials for impersonation|
 |----------------|----------------|----------------|----------------|
 |----------------|----------------|----------------|----------------|
 |----------------|----------------|----------------|----------------|
@@ -249,6 +249,6 @@
 How confident the group members are with the project(Scale 1-10)
 |Name|Level of confidence|email|
 |----------------|------------------|----------------|
-|Mercy Benu|------------------|----------------|
+|Mercy Benu|------------------|benumercy1@gmail.com|
 |Viron Otieno|------------------|`ochiengviron06@gmail.com`|
 |MarkPaul Ndiragu|------------------|----------------|
