@@ -269,15 +269,16 @@ User session does not time out.
 
 ## **Risks Identified**
 |Risk name|Likelihood | Severity|Description|
-|Use of weak passwords to login| high |medium|A user can be able to create and login to their account using weak password. These passwords are easy to crack and a hacker can use the credentials for impersonation|
-|----------------|----------------|----------------|----------------|
-|----------------|----------------|----------------|----------------|
-|----------------|----------------|----------------|----------------|
-|----------------|----------------|----------------|----------------|
-|----------------|----------------|----------------|----------------|
-|----------------|----------------|----------------|----------------|
-|----------------|----------------|----------------|----------------|
-|----------------|----------------|----------------|----------------|
+|----------|-----------|---------|-----------|
+| Use of weak passwords to login| high |medium | A user can be able to create and login to their account using weak password. These passwords are easy to crack and a hacker can use the credentials for impersonation |
+| User selecting date values outside allowed range |Very High | High |A user can be able to select date values that are way overdue eg.selcting a pickup date that is 5 years ago. This can cause the application to alfunction. |
+| The Admin user(s) is unable to edit/update request statuses | High | Critical | The Edit button may fail to function hence hindering the Admin user(s) from updating request status. |
+| Request status not updating on the dashboard | High | High | When an admin updates a request status, the current state may fail to update on the dashboard leading to duplicate was pickups. |
+| Dashboard update failure | Medium| Medium | A user may schedule a request but the request fails to update on the dashboard. THis can result in duplicate scheduled requests on the users end. |
+| Mobile responsiveness | Medium | Medium | The application may Fails in some devices e.g mobile. Leading to frustrations on the users end. |
+| Browser compatibility | Medium | Medium | The application Fails in some browsers causing user frustrations. |
+| Login failure | Medium | High | User providing invalid login details to login. If appropriate erroe handling techniques are not implemented, it could lead to the application crushing. |
+|SQL injection | High | Critical | When proper data sanitization is not implemented, a hacker can use sql injection to insert malicious code in to the application. |
 
 
 ##  **Test Automation**
