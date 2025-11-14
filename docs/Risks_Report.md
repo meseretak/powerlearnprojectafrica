@@ -85,3 +85,5 @@ pie title Risk Level Distribution
     "Severe" : 2
     "Moderate" : 2
     "Sustainable" : 1
+
+
