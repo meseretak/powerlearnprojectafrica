@@ -4,7 +4,7 @@
 |**Fullname**|**Role**|**Email**|
 |-----------------------|-----------------------|-----------------------|
 |Viron Ochieng|Test Manager|`ochiengviron06@gmail.com`|
-|MarkPaul Ndiragu|Risk Analyst|-----------------------|
+|Meseret akalu |Risk Analyst|meseretinsa@gmail.com|
 |Mercy Benu|Test Executor|benumercy1@gmail.com|
 
 
@@ -251,4 +251,4 @@ How confident the group members are with the project(Scale 1-10)
 |----------------|------------------|----------------|
 |Mercy Benu|------------------|benumercy1@gmail.com|
 |Viron Otieno|------------------|`ochiengviron06@gmail.com`|
-|MarkPaul Ndiragu|------------------|----------------|
+|meseret akalu|------------------|meseretinsa@gmail.com|
