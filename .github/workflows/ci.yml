@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
+      # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Setup Node.js (>=20 for dependencies)
+      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -25,25 +25,56 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # --------------------------
       # 4. Run Jest Unit Tests
+      # --------------------------
       - name: Run Jest Unit Tests
-        run: npx jest "Unit Test/**/*.test.js" --ci --coverage
+        run: |
+          npx jest "Unit Test/**/*.test.js" --ci --coverage --coverageReporters=text --outputFile=reports/unit-tests.json
+        continue-on-error: false
+      - name: Upload Unit Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-report
+          path: reports/unit-tests.json
 
-      # 5. Install live-server globally
+      # --------------------------
+      # 5. Install live-server
+      # --------------------------
       - name: Install Live Server
         run: npm install -g live-server
 
-      # 6. Start live-server in the background on port 5500 and wait for it
+      # --------------------------
+      # 6. Start Live Server
+      # --------------------------
       - name: Start Live Server
         run: |
           live-server ./ --port=5500 &
           npx wait-on http://127.0.0.1:5500
         shell: bash
 
+      # --------------------------
       # 7. Run Cypress E2E Tests
+      # --------------------------
       - name: Run Cypress E2E Tests
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           headless: true
           base-url: http://127.0.0.1:5500
+          record: false
+          # Save the report in JSON for SonarQube / artifacts
+          reporter: mocha-json
+          reporter-options: "output=reports/cypress-report.json"
+
+      - name: Upload Cypress Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-test-report
+          path: reports/cypress-report.json
+
+      # --------------------------
+      # 8. Placeholder for Test Automation (future)
+      # --------------------------
+      - name: Test Automation Placeholder
+        run: echo "Future test automation reports go here"
