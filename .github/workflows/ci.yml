@@ -30,10 +30,12 @@ jobs:
       # --------------------------
       - name: Run Jest Unit Tests
         run: |
+          mkdir -p reports
           npx jest "Unit Test/**/*.test.js" --ci --coverage --coverageReporters=text --outputFile=reports/unit-tests.json
         continue-on-error: false
+
       - name: Upload Unit Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: unit-test-report
           path: reports/unit-tests.json
@@ -63,12 +65,11 @@ jobs:
           headless: true
           base-url: http://127.0.0.1:5500
           record: false
-          # Save the report in JSON for SonarQube / artifacts
           reporter: mocha-json
           reporter-options: "output=reports/cypress-report.json"
 
       - name: Upload Cypress Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-test-report
           path: reports/cypress-report.json
