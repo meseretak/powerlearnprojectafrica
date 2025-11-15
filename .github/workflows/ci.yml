@@ -36,7 +36,7 @@ jobs:
 
     # Wait for server to be ready
     - name: Wait for server
-      run: npx wait-on http://localhost:8080
+      run: npx wait-on http://localhost:8090
 
     # Run Cypress tests
     - name: Run Cypress E2E Tests
@@ -44,4 +44,4 @@ jobs:
       with:
         browser: chrome
         headless: true
-        wait-on: 'http://localhost:8080'
+        wait-on: 'http://localhost:8090'
