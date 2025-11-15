@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
+      # 1️⃣ Checkout repository
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -21,9 +21,11 @@ jobs:
         with:
           node-version: 20
 
-      # 3️⃣ Install dependencies
+      # 3️⃣ Install dependencies (including jest-html-reporters & mochawesome)
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install --save-dev jest-html-reporters mochawesome
 
       # --------------------------
       # 4️⃣ Run Jest Unit Tests with HTML + Coverage
@@ -32,9 +34,11 @@ jobs:
         run: |
           mkdir -p reports/jest
           npx jest "Unit Test/**/*.test.js" --ci --verbose --coverage \
-            --coverageReporters=text --reporters=default \
+            --coverageReporters=text \
+            --reporters=default \
             --reporters=jest-html-reporters \
-            --outputPath=reports/jest/jest-report.html
+            --outputPath=reports/jest/jest-report.html \
+            --reporter-options "customInfos=[{\"title\":\"Made with ❤️ by Meseret\"}]"
         continue-on-error: false
 
       - name: Upload Jest HTML Report
@@ -74,7 +78,7 @@ jobs:
             --browser chrome \
             --headless \
             --reporter mochawesome \
-            --reporter-options reportDir=reports/cypress,overwrite=false,html=true,json=true,charts=true,screenshotsFolder=reports/cypress/screenshots,videosFolder=reports/cypress/videos
+            --reporter-options reportDir=reports/cypress,overwrite=false,html=true,json=true,charts=true,reportTitle="Cypress E2E Report - Made with ❤️ by Meseret",screenshotsFolder=reports/cypress/screenshots,videosFolder=reports/cypress/videos
 
       # Upload Cypress HTML/JSON Reports
       - name: Upload Cypress Mochawesome Reports
@@ -97,3 +101,9 @@ jobs:
         run: |
           echo "Future automation tests (API, integration, performance) will save reports here."
           mkdir -p reports/future-tests
+
+      # --------------------------
+      # 9️⃣ Personalized log
+      # --------------------------
+      - name: Made with ❤️ by Meseret
+        run: echo "🚀 Made with ❤️ by Meseret - Automation Tester"
