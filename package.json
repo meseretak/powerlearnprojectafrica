@@ -24,12 +24,14 @@
     "reporters": [
       "default",
       [
-        "jest-html-reporter",
+        "jest-html-reporters",
         {
-          "pageTitle": "CleanCity Test Report",
-          "outputPath": "reports/test-report.html",
-          "includeFailureMsg": true,
-          "includeConsoleLog": true
+          "publicPath": "./reports/jest",
+          "filename": "jest-report.html",
+          "expand": true,
+          "customInfos": [
+            { "title": "Made with ❤️ by Meseret" }
+          ]
         }
       ]
     ]
@@ -62,7 +64,7 @@
     "url": "git+https://github.com/mah-c/wk-6-mah-c-1-glitch-grabbers-team-repo.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Meseret Akalu",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
@@ -72,7 +74,8 @@
     "@testing-library/dom": "^10.4.1",
     "cypress": "^15.6.0",
     "jest": "^27.5.1",
-    "jest-html-reporter": "^3.10.2",
-    "puppeteer": "^24.30.0"
+    "jest-html-reporters": "^3.15.0",
+    "puppeteer": "^24.30.0",
+    "mochawesome": "^7.1.3"
   }
 }
