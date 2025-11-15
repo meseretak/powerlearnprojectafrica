@@ -33,20 +33,17 @@ jobs:
       - name: Run Jest Unit Tests
         run: |
           mkdir -p reports/jest
-          npx jest "Unit Test/**/*.test.js" --ci --verbose --coverage \
-            --coverageReporters=text \
-            --reporters=default \
-            --reporters=jest-html-reporters \
-            --outputPath=reports/jest/jest-report.html \
-            --reporter-options "customInfos=[{\"title\":\"Made with ❤️ by Meseret\"}]"
+          npx jest "Unit Test/**/*.test.js" --ci --verbose --coverage --coverageReporters=text
         continue-on-error: false
 
+      # Upload Jest HTML Report
       - name: Upload Jest HTML Report
         uses: actions/upload-artifact@v4
         with:
           name: jest-html-report
           path: reports/jest/jest-report.html
 
+      # Upload Jest Coverage JSON
       - name: Upload Jest Coverage JSON
         uses: actions/upload-artifact@v4
         with:
