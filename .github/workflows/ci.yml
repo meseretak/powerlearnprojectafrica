@@ -11,37 +11,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout the repository
-    - name: Checkout code
-      uses: actions/checkout@v3
+      # 1. Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    # Setup Node.js
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
+      # 2. Setup Node.js (>=20 for dependencies)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-    # Install dependencies
-    - name: Install dependencies
-      run: npm install
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm install
 
-    # Run Jest unit tests (Unit Test folder)
-    - name: Run Jest Unit Tests
-      run: npx jest "Unit Test/**/*.test.js" --ci --coverage
+      # 4. Run Jest Unit Tests
+      - name: Run Jest Unit Tests
+        run: npx jest "Unit Test/**/*.test.js" --ci --coverage
 
-    # Start local server for Cypress
-    - name: Start Local Server
-      run: npm start &
-      shell: bash
+      # 5. Install live-server globally
+      - name: Install Live Server
+        run: npm install -g live-server
 
-    # Wait for server to be ready
-    - name: Wait for server
-      run: npx wait-on http://localhost:8090
+      # 6. Start live-server in the background on port 5500 and wait for it
+      - name: Start Live Server
+        run: |
+          live-server ./ --port=5500 &
+          npx wait-on http://127.0.0.1:5500
+        shell: bash
 
-    # Run Cypress tests
-    - name: Run Cypress E2E Tests
-      uses: cypress-io/github-action@v6
-      with:
-        browser: chrome
-        headless: true
-        wait-on: 'http://localhost:8090'
+      # 7. Run Cypress E2E Tests
+      - name: Run Cypress E2E Tests
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          headless: true
+          base-url: http://127.0.0.1:5500
