@@ -11,43 +11,52 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout code
+      # 1️⃣ Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Setup Node.js
+      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # 3. Install dependencies
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm install
 
       # --------------------------
-      # 4. Run Jest Unit Tests
+      # 4️⃣ Run Jest Unit Tests with HTML + Coverage
       # --------------------------
       - name: Run Jest Unit Tests
         run: |
-          mkdir -p reports
-          npx jest "Unit Test/**/*.test.js" --ci --coverage --coverageReporters=text --outputFile=reports/unit-tests.json
+          mkdir -p reports/jest
+          npx jest "Unit Test/**/*.test.js" --ci --verbose --coverage \
+            --coverageReporters=text --reporters=default \
+            --reporters=jest-html-reporters \
+            --outputPath=reports/jest/jest-report.html
         continue-on-error: false
 
-      - name: Upload Unit Test Report
+      - name: Upload Jest HTML Report
         uses: actions/upload-artifact@v4
         with:
-          name: unit-test-report
-          path: reports/unit-tests.json
+          name: jest-html-report
+          path: reports/jest/jest-report.html
+
+      - name: Upload Jest Coverage JSON
+        uses: actions/upload-artifact@v4
+        with:
+          name: jest-coverage
+          path: coverage/coverage-final.json
 
       # --------------------------
-      # 5. Install live-server
+      # 5️⃣ Install live-server
       # --------------------------
       - name: Install Live Server
         run: npm install -g live-server
 
       # --------------------------
-      # 6. Start Live Server
+      # 6️⃣ Start Live Server for Cypress
       # --------------------------
       - name: Start Live Server
         run: |
@@ -56,26 +65,35 @@ jobs:
         shell: bash
 
       # --------------------------
-      # 7. Run Cypress E2E Tests
+      # 7️⃣ Run Cypress E2E Tests with Mochawesome
       # --------------------------
       - name: Run Cypress E2E Tests
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          headless: true
-          base-url: http://127.0.0.1:5500
-          record: false
-          reporter: mocha-json
-          reporter-options: "output=reports/cypress-report.json"
+        run: |
+          mkdir -p reports/cypress
+          npx cypress run \
+            --browser chrome \
+            --headless \
+            --reporter mochawesome \
+            --reporter-options reportDir=reports/cypress,overwrite=false,html=true,json=true,charts=true,screenshotsFolder=reports/cypress/screenshots,videosFolder=reports/cypress/videos
 
-      - name: Upload Cypress Test Report
+      # Upload Cypress HTML/JSON Reports
+      - name: Upload Cypress Mochawesome Reports
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-test-report
-          path: reports/cypress-report.json
+          name: cypress-reports
+          path: reports/cypress
+
+      # Upload Cypress Videos
+      - name: Upload Cypress Videos
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: reports/cypress/videos
 
       # --------------------------
-      # 8. Placeholder for Test Automation (future)
+      # 8️⃣ Placeholder for Future Test Automation
       # --------------------------
       - name: Test Automation Placeholder
-        run: echo "Future test automation reports go here"
+        run: |
+          echo "Future automation tests (API, integration, performance) will save reports here."
+          mkdir -p reports/future-tests
