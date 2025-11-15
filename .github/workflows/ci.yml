@@ -92,7 +92,32 @@ jobs:
           path: reports/cypress/videos
 
       # --------------------------
-      # 8️⃣ Placeholder for Future Test Automation
+      # 8️⃣ Generate Cypress Test Summary Table (Job Summary)
+      # --------------------------
+      - name: Cypress Test Summary Table
+        if: always()
+        run: |
+          RESULTS_JSON="reports/cypress/mochawesome.json"
+          SUMMARY_FILE="$GITHUB_STEP_SUMMARY"
+
+          if [ -f "$RESULTS_JSON" ]; then
+            PASSED=$(jq '.stats.passes' $RESULTS_JSON)
+            FAILED=$(jq '.stats.failures' $RESULTS_JSON)
+            PENDING=$(jq '.stats.pending' $RESULTS_JSON)
+            SKIPPED=$(jq '.stats.skipped' $RESULTS_JSON)
+            DURATION=$(jq '.stats.duration' $RESULTS_JSON)
+
+            echo "### 🧪 Cypress Test Results" >> $SUMMARY_FILE
+            echo "| Result | Passed ✅ | Failed ❌ | Pending ✋ | Skipped ↩️ | Duration 🕗 |" >> $SUMMARY_FILE
+            echo "|--------|-----------|-----------|------------|------------|------------|" >> $SUMMARY_FILE
+            echo "| Passing ✅ | $PASSED | $FAILED | $PENDING | $SKIPPED | ${DURATION}s |" >> $SUMMARY_FILE
+          else
+            echo "⚠️ Cypress results file not found: $RESULTS_JSON" >> $SUMMARY_FILE
+          fi
+        shell: bash
+
+      # --------------------------
+      # 9️⃣ Placeholder for Future Test Automation
       # --------------------------
       - name: Test Automation Placeholder
         run: |
@@ -100,7 +125,7 @@ jobs:
           mkdir -p reports/future-tests
 
       # --------------------------
-      # 9️⃣ Personalized log
+      # 🔟 Personalized log
       # --------------------------
       - name: Made with ❤️ by Meseret
         run: echo "🚀 Made with ❤️ by Meseret - Automation Tester"
