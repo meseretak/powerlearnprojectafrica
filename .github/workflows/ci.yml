@@ -11,38 +11,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the code
+    # Checkout the repository
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Setup Node.js
+    # Setup Node.js
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 18
 
-    # Step 3: Install dependencies
+    # Install dependencies
     - name: Install dependencies
       run: npm install
 
-    # Step 4: Run Jest Unit Tests
-    - name: Run Jest Tests
-      run: npm run test:ci
-      working-directory: ./  # Root folder where __tests__ exists
+    # Run Jest unit tests (Unit Test folder)
+    - name: Run Jest Unit Tests
+      run: npx jest "Unit Test/**/*.test.js" --ci --coverage
 
-    # Step 5: Start Local Server for Cypress
+    # Start local server for Cypress
     - name: Start Local Server
       run: npm start &
       shell: bash
 
-    # Step 6: Wait for server to be ready
+    # Wait for server to be ready
     - name: Wait for server
       run: npx wait-on http://localhost:8080
 
-    # Step 7: Run Cypress E2E Tests
-    - name: Run Cypress
+    # Run Cypress tests
+    - name: Run Cypress E2E Tests
       uses: cypress-io/github-action@v6
       with:
-        wait-on: 'http://localhost:8080'
         browser: chrome
         headless: true
+        wait-on: 'http://localhost:8080'
