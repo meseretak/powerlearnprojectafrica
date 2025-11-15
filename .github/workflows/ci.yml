@@ -11,31 +11,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Step 1: Checkout the code
     - name: Checkout code
       uses: actions/checkout@v3
 
+    # Step 2: Setup Node.js
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 18
 
+    # Step 3: Install dependencies
     - name: Install dependencies
       run: npm install
 
-    # ---------- UNIT TESTS ----------
+    # Step 4: Run Jest Unit Tests
     - name: Run Jest Tests
       run: npm run test:ci
+      working-directory: ./  # Root folder where __tests__ exists
 
-    # ---------- CYPRESS TESTS ----------
+    # Step 5: Start Local Server for Cypress
     - name: Start Local Server
       run: npm start &
       shell: bash
 
+    # Step 6: Wait for server to be ready
     - name: Wait for server
       run: npx wait-on http://localhost:8080
 
+    # Step 7: Run Cypress E2E Tests
     - name: Run Cypress
       uses: cypress-io/github-action@v6
       with:
-        start: npm start
         wait-on: 'http://localhost:8080'
+        browser: chrome
+        headless: true
